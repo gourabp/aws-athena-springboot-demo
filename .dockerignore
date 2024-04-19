@@ -1,0 +1,40 @@
+# Ignore files and directories commonly unnecessary in Docker builds
+
+# Ignore system-specific files
+.dockerignore
+.docker
+.dockerignore
+.dockerignore~
+
+# Ignore development files and directories
+.git
+.gitignore
+node_modules
+npm-debug.log
+
+# Ignore temporary files
+*.log
+*.tmp
+
+# Ignore text editor backup files
+*~
+
+# Ignore build artifacts
+/build
+/dist
+
+# Ignore Docker-specific files
+Dockerfile
+.dockerignore
+
+# Ignore configuration files that might be specific to development environment
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Ignore dependency lock files
+yarn.lock
+package-lock.json

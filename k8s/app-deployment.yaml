@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: athena-sts-demo
+  namespace: stg-gp-springboot-aws
+  labels:
+    app: athena-sts-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: athena-sts-demo
+  template:
+    metadata:
+      labels:
+        app: athena-sts-demo
+    spec:
+      containers:
+        - name: athena-sts-demo
+          image: gourabp/gp-aws-athena-sts
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: athena-sts-demo
