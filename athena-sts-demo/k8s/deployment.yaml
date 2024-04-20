@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: athena-sts-demo
-  namespace: stg-gp-springboot-aws
+  namespace: springboot-aws-demo-ns
   labels:
     app: athena-sts-demo
 spec:
@@ -18,8 +18,17 @@ spec:
       containers:
         - name: athena-sts-demo
           image: gourabp/gp-aws-athena-sts
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
+
+          volumeMounts:
+            - name: aws-credentials
+              mountPath: "/root/.aws"
+              readOnly: true  # Ensure the mounted volume is read-only
+      volumes:
+        - name: aws-credentials
+          secret:
+            secretName: aws-credentials
       imagePullSecrets:
-        - name: athena-sts-demo
+        - name: docker-secrets

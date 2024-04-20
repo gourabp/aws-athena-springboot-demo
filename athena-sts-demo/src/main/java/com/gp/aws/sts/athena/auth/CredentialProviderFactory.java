@@ -1,6 +1,7 @@
 package com.gp.aws.sts.athena.auth;
 
 import com.gp.aws.sts.athena.model.AthenaQueryDef;
+import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.auth.credentials.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sts.StsAsyncClient;
@@ -8,15 +9,16 @@ import software.amazon.awssdk.services.sts.StsClient;
 import software.amazon.awssdk.services.sts.model.AssumeRoleRequest;
 import software.amazon.awssdk.services.sts.model.AssumeRoleResponse;
 import software.amazon.awssdk.services.sts.model.Credentials;
-
+import java.io.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+@Slf4j
 public class CredentialProviderFactory {
 
     private static final String ENV_LOCAL = "local";
 
-    public static final AwsCredentialsProvider getProvider(AthenaQueryDef cfg, String env){
+    public static final AwsCredentialsProvider getProvider(AthenaQueryDef cfg, String env) throws IOException {
         if(ENV_LOCAL.equalsIgnoreCase(env)){
             return getCredProviderByProfile(cfg);
         }
@@ -24,7 +26,6 @@ public class CredentialProviderFactory {
     }
 
     private static AwsCredentialsProvider getCredProvider(AthenaQueryDef cfg) {
-        //log.info("@@@@@@@@@@@@@@@@@@@@@@assumeRole -1");
         try{
             DefaultCredentialsProvider defaultCredentialsProvider = DefaultCredentialsProvider.create();
 
@@ -53,18 +54,15 @@ public class CredentialProviderFactory {
 
                 return credentialsProviderChain;
             }else{
-                // log.info("I don't want to see this message on my log, Not-able to assumeRole :((((");
+                log.info("Issue with assuming role");
             }
         }catch(Exception ex){
-            // log.error("Not-able to assumeRole message {} cause {}",ex.getMessage(),ex.getCause());
-            //log.error("stacktrace :{}", Arrays.toString(ex.getStackTrace()));
+             log.error("Not-able to assumeRole message {} cause {}",ex.getMessage(),ex.getCause());
         }
         return null;
     }
 
-
-    private static AwsCredentialsProvider getCredProviderByProfile(AthenaQueryDef cfg) {
-        //log.info("@@@@@@@@@@@@@@@@@@@@@@assumeRole -2");
+    private static AwsCredentialsProvider getCredProviderByProfile(AthenaQueryDef cfg) throws IOException {
         ProfileCredentialsProvider defaultProfileCredProvider = ProfileCredentialsProvider
                 .builder()
                 .profileName(cfg.getProfile())
@@ -88,17 +86,14 @@ public class CredentialProviderFactory {
             response = responseFuture.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            //log.error("InterruptedException request to assume role failed {} error message {} ",assumeRoleRequest,e.getMessage());
         } catch (ExecutionException e) {
             e.printStackTrace();
-            // log.error("ExecutionException request to assume role failed {} error message {} ",assumeRoleRequest,e.getMessage());
         }
 
         if(null != response && response.assumedRoleUser().arn().contains(cfg.getRoleName())){
             Credentials creds = response.credentials();
             //log.info("Credentials are {} ",creds);
             AwsSessionCredentials sessionCredentials = AwsSessionCredentials.create(creds.accessKeyId(), creds.secretAccessKey(), creds.sessionToken());
-            //log.info("@@@@@@@@@@@@@@@@@@@@@@assumeRole -2.1");
             return AwsCredentialsProviderChain.builder()
                     .credentialsProviders(StaticCredentialsProvider.create(sessionCredentials))
                     .build();

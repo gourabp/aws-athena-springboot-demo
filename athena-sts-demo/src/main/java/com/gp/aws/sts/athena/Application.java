@@ -23,7 +23,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        var queryDef = athenaSourceConfig.getCamelAthenaTargetDef();
+        var queryDef = athenaSourceConfig.getAthenaTargetDef();
         var queryExecId = submitAthenaQuery(queryDef);
         log.info("Query submitted: " + System.currentTimeMillis());
         waitForQueryToComplete(queryExecId,queryDef);
@@ -89,5 +89,4 @@ public class Application implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
 }

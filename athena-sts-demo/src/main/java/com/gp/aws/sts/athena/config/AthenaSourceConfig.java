@@ -11,7 +11,7 @@ import software.amazon.awssdk.auth.credentials.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.athena.AthenaClient;
 
-import java.util.ArrayList;
+import java.io.*;
 
 @Data
 @ConfigurationProperties("athena-source")
@@ -19,15 +19,14 @@ import java.util.ArrayList;
 @Slf4j
 public class AthenaSourceConfig {
 
-    private AthenaQueryDef camelAthenaTargetDef;
+    private AthenaQueryDef athenaTargetDef;
     private String region = Region.US_EAST_1.id();
     private String account;
     private String env="non-local";
-    private static final String ENV_LOCAL = "local";
 
     @Bean(name = "demo-athena-client")
-    public AthenaClient amazonAthenaClient(){
-        var def = camelAthenaTargetDef;
+    public AthenaClient amazonAthenaClient() throws IOException {
+        var def = athenaTargetDef;
         var athenaClient = getAmazonAthenaClient(def);
         if(null == athenaClient){
              log.error("demo-athena-client is null ,def {} ",def);
@@ -35,7 +34,7 @@ public class AthenaSourceConfig {
         return athenaClient;
     }
 
-    public AthenaClient getAmazonAthenaClient(AthenaQueryDef def) {
+    public AthenaClient getAmazonAthenaClient(AthenaQueryDef def) throws IOException {
         AwsCredentialsProvider awsCredentialsProvider = CredentialProviderFactory.getProvider(def,env);
         if(null != awsCredentialsProvider){
             AthenaClient athenaClient = AthenaClient

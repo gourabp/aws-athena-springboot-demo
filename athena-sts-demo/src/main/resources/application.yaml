@@ -1,6 +1,6 @@
 athena-source:
   env: 'local'
-  camelAthenaTargetDef:
+  athenaTargetDef:
      region: "us-east-1"
      profile: 'jagyiamgpathenauser'
      account: '682596026257'
