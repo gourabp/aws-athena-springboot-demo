@@ -1,0 +1,13 @@
+athena-source:
+  env: 'local'
+  s3TargetDef:
+     region: "us-east-1"
+     profile: 'jagyiamgpathenauser'
+     account: '682596026257'
+     roleName: 'gp-s3full-role'
+     roleSessionName: 'AssumeRoleSession'
+     roleArn: 'arn:aws:iam::682596026257:role/gp-s3full-role'
+     outputS3: 's3://gp-s3-demo-bckt/result1/'
+     sessionDurationSeconds: 3600
+     delay: 1000
+     repeatCount: 3
