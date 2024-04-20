@@ -1,5 +1,13 @@
 Demo Springboot and AWS project
 
+Install docker desktop
+Install and run minikuke 
+
+run minikube using following command 
+
+minikube start
+
+
 Run the docker Image in the K8S
 ================================
 
