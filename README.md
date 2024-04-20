@@ -1,17 +1,30 @@
 Demo Springboot and AWS project
 
+create an AWS account.
+
+(you can use terrform to create infra)
+
+create an IAM user and role 
+
+create S3 bucket for Athena 
+
+Create Athena Table
+
+================================
+
 Install docker desktop
+
 Install and run minikuke 
 
-run minikube using following command 
+ run minikube using following command 
 
-minikube start
+    minikube start
 
 
 Run the docker Image in the K8S
 ================================
 
-1) : First build the project clean-install
+1) First build the project clean-install
 
 2) docker build -t athena-sts-demo .
 
