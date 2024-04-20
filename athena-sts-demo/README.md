@@ -1,4 +1,4 @@
-Demo Springboot and AWS project to connect to Athena and Query data
+Demo Springboot and AWS project to connect to Athena and Query data (Connect to AWS with an User profile)
 
 create an AWS account.
 
