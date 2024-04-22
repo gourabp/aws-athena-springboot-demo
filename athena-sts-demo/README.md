@@ -39,3 +39,12 @@ Run the docker Image in the K8S
 7) kubectl apply -f aws-credentials-secret.yaml
 
 8) kubectl apply -f deployment.yaml
+
+
+======helm=====
+
+1) helm create athena-sts-demo
+     
+    it will create a folder structure with following files :
+
+    ![img_1.png](img_1.png)
