@@ -43,6 +43,12 @@ Run the docker Image in the K8S
 
 ======helm=====
 
+Install helm :
+
+https://helm.sh/docs/intro/install/
+
+
+
 1) cd ~/<project_src>/aws-springboot-demo/athena-sts-demo
 
 2) Run the following command 
