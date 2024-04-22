@@ -43,8 +43,27 @@ Run the docker Image in the K8S
 
 ======helm=====
 
-1) helm create athena-sts-demo
+1) cd ~/<project_src>/aws-springboot-demo/athena-sts-demo
+
+2) Run the following command 
+
+    helm create athena-sts-demo
      
     it will create a folder structure with following files :
 
     ![img_1.png](img_1.png)
+
+3) cd thena-sts-demo 
+
+    run following 
+
+    helm package .   
+
+    helm install athena-sts-demo athena-sts-demo-0.1.0.tgz
+
+    helm list --all      
+
+If you want to delete the chat run following 
+
+    helm delete athena-sts-demo       
+   
